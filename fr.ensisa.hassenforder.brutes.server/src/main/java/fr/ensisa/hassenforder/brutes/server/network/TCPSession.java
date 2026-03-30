@@ -37,6 +37,16 @@ public class TCPSession extends Thread {
 		writer.createOK();
 	}
 
+	private void processCreate(TCPReader reader, TCPWriter writer) {
+		Character character = model.createCharacter(reader.getName());
+		boolean result = model.add(character);
+		if (result) {
+			writer.createOK();
+		} else {
+			writer.createKO();
+		}
+	}
+
 	public boolean operate() {
 		try {
 			TCPWriter writer = new TCPWriter (connection.getOutputStream());
@@ -45,6 +55,7 @@ public class TCPSession extends Thread {
 			switch (reader.getType ()) {
 			case 0 : return false; // socket closed
 			case Protocol.REQUEST_POPULATE		: processPopulate (reader, writer); break;
+			case Protocol.REQUEST_CREATE		: processCreate (reader, writer); break;
 			default: return false; // connection jammed
 			}
 			writer.send ();

@@ -59,9 +59,16 @@ public class ClientSession implements ISession {
 	public Boolean createCharacter(String name) {
         try {
         	ClientWriter w = new ClientWriter(tcp.getOutputStream());
-//
+            w.createCharacter(name);
+            w.send();
             ClientReader r = new ClientReader(tcp.getInputStream());
-//
+            r.receive();
+            if (r.getType() == Protocol.REPLY_OK) {
+                return Boolean.TRUE;
+            }
+            if (r.getType() == Protocol.REPLY_KO) {
+                return Boolean.FALSE;
+            }
     		return null;
         } catch (IOException e) {
     		return null;

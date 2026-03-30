@@ -12,4 +12,8 @@ public class ClientWriter extends BasicAbstractWriter {
         super(outputStream);
     }
 
+    public void createCharacter(String name) {
+        writeInt(Protocol.REQUEST_CREATE);
+        writeString(name);
+    }
 }
