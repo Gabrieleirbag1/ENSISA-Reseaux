@@ -44,11 +44,21 @@ public class ClientSession implements ISession {
 
 	@Override
 	public Boolean populateCharacters() {
+		if (tcp == null || tcp.isClosed()) {
+			return null;
+		}
         try {
         	ClientWriter w = new ClientWriter(tcp.getOutputStream());
-//
+            w.populateCharacters();
+            w.send();
             ClientReader r = new ClientReader(tcp.getInputStream());
-//
+            r.receive();
+            if (r.getType() == Protocol.REPLY_OK) {
+                return Boolean.TRUE;
+            }
+            if (r.getType() == Protocol.REPLY_KO) {
+                return Boolean.FALSE;
+            }
     		return null;
         } catch (IOException e) {
     		return null;
@@ -57,9 +67,12 @@ public class ClientSession implements ISession {
 
 	@Override
 	public Boolean createCharacter(String name) {
+		if (tcp == null || tcp.isClosed()) {
+			return null;
+		}
         try {
         	ClientWriter w = new ClientWriter(tcp.getOutputStream());
-            w.createCharacter(name);
+            w.createCreateCharacter(name);
             w.send();
             ClientReader r = new ClientReader(tcp.getInputStream());
             r.receive();
@@ -77,19 +90,22 @@ public class ClientSession implements ISession {
 
 	@Override
 	public Character getCharacter(String name) {
+		if (tcp == null || tcp.isClosed()) {
+			return null;
+		}
         try {
         	ClientWriter w = new ClientWriter(tcp.getOutputStream());
-            w.getCharacter(name);
+            w.createGetCharacter(name);
             w.send();
             ClientReader r = new ClientReader(tcp.getInputStream());
             r.receive();
             if (r.getType() == Protocol.REPLY_CHARACTER) {
                 return r.getCharacter();
-            } 
+            }
             if (r.getType() == Protocol.REPLY_KO) {
                 return null;
             }
-            return null;
+    		return null;
         } catch (IOException e) {
     		return null;
         }
@@ -97,19 +113,21 @@ public class ClientSession implements ISession {
 
 	@Override
 	public byte[] getPicture(long id) {
+		if (tcp == null || tcp.isClosed()) {
+			return null;
+		}
         try {
         	ClientWriter w = new ClientWriter(tcp.getOutputStream());
-          w.createPicture(id);
-          w.send();
-          ClientReader r = new ClientReader(tcp.getInputStream());
-          r.receive();
-          System.out.println("ClientSession.getPicture: type = " + r.getType());
-          if (r.getType() == Protocol.REPLY_PICTURE) {
-    	    	return r.getPicture();
-          } 
-          if (r.getType() == Protocol.REPLY_KO) {
-              return null;
-          }
+            w.createGetPicture(id);
+            w.send();
+            ClientReader r = new ClientReader(tcp.getInputStream());
+            r.receive();
+            if (r.getType() == Protocol.REPLY_PICTURE) {
+                return r.getPicture();
+            }
+            if (r.getType() == Protocol.REPLY_KO) {
+                return null;
+            }
     		return null;
         } catch (IOException e) {
     		return null;
@@ -118,11 +136,21 @@ public class ClientSession implements ISession {
 
 	@Override
 	public Fight doFight(String left, String right, Fight expected) {
+		if (tcp == null || tcp.isClosed()) {
+			return null;
+		}
         try {
         	ClientWriter w = new ClientWriter(tcp.getOutputStream());
-//
+            w.createFight(left, right, expected);
+            w.send();
             ClientReader r = new ClientReader(tcp.getInputStream());
-//
+            r.receive();
+            if (r.getType() == Protocol.REPLY_FIGHT) {
+                return r.getFight();
+            }
+            if (r.getType() == Protocol.REPLY_KO) {
+                return null;
+            }
     		return null;
         } catch (IOException e) {
     		return null;
@@ -131,11 +159,21 @@ public class ClientSession implements ISession {
 
 	@Override
 	public List<Character> getAllCharacters() {
+		if (tcp == null || tcp.isClosed()) {
+			return null;
+		}
         try {
         	ClientWriter w = new ClientWriter(tcp.getOutputStream());
-//
+            w.getAllCharacters();
+            w.send();
             ClientReader r = new ClientReader(tcp.getInputStream());
-//
+            r.receive();
+            if (r.getType() == Protocol.REPLY_CHARACTERS) {
+                return r.getCharacters();
+            }
+            if (r.getType() == Protocol.REPLY_KO) {
+                return null;
+            }
     		return null;
         } catch (IOException e) {
     		return null;

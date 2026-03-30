@@ -165,7 +165,7 @@ public class BrutesController {
         		updateStatus("Creation failed");
         	}
     	} else {
-    		updateStatus("Creation wrong");
+    		updateStatus("Server connection lost or creation wrong");
     	}
     }
 
@@ -221,7 +221,7 @@ public class BrutesController {
     	if (character != null) {
         	updateStatus("Left character updated");
     	} else {
-    		updateStatus("Left character is null");
+    		updateStatus("Server connection lost or character not found");
     	}
     }
 
@@ -234,7 +234,7 @@ public class BrutesController {
     	if (character != null) {
         	updateStatus("Right character updated");
     	} else {
-    		updateStatus("Right character is null");
+    		updateStatus("Server connection lost or character not found");
     	}
     }
 
@@ -255,7 +255,7 @@ public class BrutesController {
         	loadPictures(cr);
     		updateCharacter(cr, right);
     	} else {
-    		updateStatus("Fight failed");
+    		updateStatus("Server connection lost or fight failed");
     	}
     }
 
@@ -276,7 +276,7 @@ public class BrutesController {
         	loadPictures(cr);
     		updateCharacter(cr, right);
     	} else {
-    		updateStatus("Fight failed");
+    		updateStatus("Server connection lost or fight failed");
     	}
     }
 
@@ -290,7 +290,7 @@ public class BrutesController {
     		characters.addAll(all);
         	updateStatus("End of a list of characters");
     	} else {
-    		updateStatus("Get list failed");
+    		updateStatus("Server connection lost or get list failed");
     	}
     }
 
@@ -305,7 +305,7 @@ public class BrutesController {
         		updateStatus("Populates failed");
         	}
     	} else {
-    		updateStatus("Populates wrong");
+    		updateStatus("Server connection lost or populates wrong");
     	}
     }
 

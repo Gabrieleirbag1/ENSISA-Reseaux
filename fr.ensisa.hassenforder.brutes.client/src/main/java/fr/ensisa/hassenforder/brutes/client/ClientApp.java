@@ -12,6 +12,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class ClientApp extends Application {
@@ -39,7 +41,16 @@ public class ClientApp extends Application {
 		if (session == null) {
 			session = new ClientSession("localhost", Protocol.BRUTES_TCP_PORT);
 //			session = new FakeSession("localhost", Protocol.BRUTES_TCP_PORT);
-			session.open();
+			boolean connected = session.open();
+			if (!connected) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Connection Error");
+				alert.setHeaderText("Cannot connect to server");
+				alert.setContentText("Cannot connect to server at localhost:" + Protocol.BRUTES_TCP_PORT +
+						"\nPlease ensure the server is running.");
+				alert.showAndWait();
+				System.exit(1);
+			}
 		}
 		return session;
 	}
