@@ -7,9 +7,12 @@ import fr.ensisa.hassenforder.brutes.server.model.Fight;
 import fr.ensisa.hassenforder.network.BasicAbstractReader;
 
 public class TCPReader extends BasicAbstractReader {
-	
+
 	private String name;
-	private long id;
+	private String firstName;
+	private String secondName;
+	private long picture;
+	private Fight fight;
 
 	public TCPReader(InputStream inputStream) {
 		super (inputStream);
@@ -17,18 +20,34 @@ public class TCPReader extends BasicAbstractReader {
 
 	private void eraseFields() {
 		name = null;
+		firstName = null;
+		secondName = null;
+		picture = 0;
+		fight = null;
 	}
 
-	private String readCreate() {
-		return readString();
+	private void readGetAll() {
 	}
 
-	private String readGetCharacter() {
-		return readString();
+	private void readFight() {
+		firstName = readString();
+		secondName = readString();
+		fight = Fight.values()[readInt()];
 	}
 
-	private Long readGetpicture() {
-		return readLong();
+	private void readGetPicture() {
+		picture = readLong();
+	}
+
+	private void readGetCharacter() {
+		name = readString();
+	}
+
+	private void readCreate() {
+		name = readString();
+	}
+
+	private void readPopulate() {
 	}
 
 	public void receive() {
@@ -36,9 +55,12 @@ public class TCPReader extends BasicAbstractReader {
 		eraseFields ();
 		switch (type) {
 		case 0 : break;
-		case Protocol.REQUEST_CREATE: name = readCreate(); break;
-		case Protocol.REQUEST_GET_CHARACTER: name = readGetCharacter(); break;
-		case Protocol.REQUEST_GET_PICTURE: id = readGetpicture(); break;
+		case Protocol.REQUEST_POPULATE		: readPopulate (); break;
+		case Protocol.REQUEST_CREATE		: readCreate (); break;
+		case Protocol.REQUEST_GET_CHARACTER	: readGetCharacter (); break;
+		case Protocol.REQUEST_GET_PICTURE	: readGetPicture (); break;
+		case Protocol.REQUEST_FIGHT			: readFight(); break;
+		case Protocol.REQUEST_ALL			: readGetAll (); break;
 		}
 	}
 
@@ -46,8 +68,20 @@ public class TCPReader extends BasicAbstractReader {
 		return name;
 	}
 
-	public long getId() {
-		return id;
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getSecondName() {
+		return secondName;
+	}
+
+	public long getPicture() {
+		return picture;
+	}
+
+	public Fight getFight() {
+		return fight;
 	}
 
 }

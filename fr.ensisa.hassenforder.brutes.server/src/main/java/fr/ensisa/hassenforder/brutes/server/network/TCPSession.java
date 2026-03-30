@@ -38,44 +38,67 @@ public class TCPSession extends Thread {
 	}
 
 	private void processCreate(TCPReader reader, TCPWriter writer) {
-		Character character = model.createCharacter(reader.getName());
-		boolean result = model.add(character);
-		if (result) {
-			writer.createOK();
-		} else {
-			writer.createKO();
+		String name = reader.getName();
+		if (model.existCharacter(name)) {
+			writer.createKO ();
 		}
+		Character character = model.createCharacter(name);
+		if (character == null) {
+			writer.createKO ();
+		}
+		model.add(character);
+		writer.createOK();
 	}
 
 	private void processGetCharacter(TCPReader reader, TCPWriter writer) {
-		Character character = model.getCharacter(reader.getName());
-		if (character != null) {
-			writer.createGetCharacter(character);
+		String name = reader.getName();
+		Character character = model.getCharacter(name);
+		if (character == null) {
+			writer.createKO ();
 		} else {
-			writer.createKO();
+			writer.createCharacter (character);
 		}
 	}
 
 	private void processGetPicture(TCPReader reader, TCPWriter writer) {
-		String name = null;
-		if (name == null) {
-			name = Model.characterPictureName(reader.getId());
-			if (! FileHelper.fileExists(name)) {
-				name = null;
-			}
+		long picture = reader.getPicture();
+		String pictureName = null;
+		if (pictureName == null) {
+			pictureName = Model.characterPictureName(picture);
+			if (! FileHelper.fileExists(pictureName)) pictureName = null;
 		}
-		if (name == null) {
-			name = Model.bonusPictureName(reader.getId());
-			if (! FileHelper.fileExists(name)) {
-				name = null;
-			}
+		if (pictureName == null) {
+			pictureName = Model.bonusPictureName(picture);
+			if (! FileHelper.fileExists(pictureName)) pictureName = null;
 		}
-		if (name != null) {
-			byte [] content = FileHelper.readContent(name);
-			writer.createPicture(content);
+		byte content [] = FileHelper.readContent(pictureName);
+		if (content == null) {
+			writer.createKO ();
 		} else {
-			writer.createKO();
+			writer.createPicture (content);
 		}
+	}
+
+	private void processFight(TCPReader reader, TCPWriter writer) {
+		String left = reader.getFirstName();
+		String right = reader.getSecondName();
+		Fight fight = reader.getFight();
+		if (fight == null) {
+			writer.createKO ();
+		} else {
+			if (fight == Fight.WIN) {
+				model.win(left, right);
+			}
+			if (fight == Fight.LOSE) {
+				model.lose(left, right);
+			}
+			writer.createFight (fight);
+		}
+	}
+
+	private void processGetAll(TCPReader reader, TCPWriter writer) {
+		Collection<Character> characters = model.getAllCharacters();
+		writer.createCharacters (characters);
 	}
 
 	public boolean operate() {
@@ -89,6 +112,8 @@ public class TCPSession extends Thread {
 			case Protocol.REQUEST_CREATE		: processCreate (reader, writer); break;
 			case Protocol.REQUEST_GET_CHARACTER	: processGetCharacter (reader, writer); break;
 			case Protocol.REQUEST_GET_PICTURE	: processGetPicture (reader, writer); break;
+			case Protocol.REQUEST_FIGHT			: processFight(reader, writer); break;
+			case Protocol.REQUEST_ALL			: processGetAll (reader, writer); break;
 			default: return false; // connection jammed
 			}
 			writer.send ();
