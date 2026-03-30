@@ -23,4 +23,19 @@ public class TCPWriter extends BasicAbstractWriter {
         writeInt(Protocol.REPLY_KO);
     }
 
+    public void createGetCharacter(Character character) {
+        writeInt(Protocol.REPLY_OK);
+        writeCharacter(character);
+    }
+
+    private void writeCharacter(Character character) {
+        writeString(character.getName());
+        writeLong(character.getPicture());
+        writeInt(character.getLevel());
+        writeInt(character.getLife());
+        writeInt(character.getSpeed());
+        writeInt(character.getStrength());
+        writeInt(0);
+    }
+
 }

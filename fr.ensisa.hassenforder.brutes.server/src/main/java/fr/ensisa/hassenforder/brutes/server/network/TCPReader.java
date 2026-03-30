@@ -22,12 +22,17 @@ public class TCPReader extends BasicAbstractReader {
 		return readString();
 	}
 
+	private String readGet() {
+		return readString();
+	}
+
 	public void receive() {
 		type = readInt ();
 		eraseFields ();
 		switch (type) {
 		case 0 : break;
 		case Protocol.REQUEST_CREATE: name = readCreate(); break;
+		case Protocol.REQUEST_GET_CHARACTER: name = readGet(); break;
 		}
 	}
 

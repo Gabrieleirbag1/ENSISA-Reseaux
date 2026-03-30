@@ -16,4 +16,9 @@ public class ClientWriter extends BasicAbstractWriter {
         writeInt(Protocol.REQUEST_CREATE);
         writeString(name);
     }
+
+    public void getCharacter(String name) {
+        writeInt(Protocol.REQUEST_GET_CHARACTER);
+        writeString(name);
+    }
 }

@@ -79,10 +79,15 @@ public class ClientSession implements ISession {
 	public Character getCharacter(String name) {
         try {
         	ClientWriter w = new ClientWriter(tcp.getOutputStream());
-//
+            w.getCharacter(name);
+            w.send();
             ClientReader r = new ClientReader(tcp.getInputStream());
-//
-    		return null;
+            r.receive();
+            if (r.getType() == Protocol.REPLY_CHARACTER) {
+                return r.getCharacter();
+            } else {
+              return null;
+            }
         } catch (IOException e) {
     		return null;
         }
