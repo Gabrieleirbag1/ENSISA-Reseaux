@@ -15,9 +15,15 @@ import javafx.collections.ObservableList;
 public class ClientReader extends BasicAbstractReader {
 
     private Character character;
+    private byte [] picture;
 
     public ClientReader(InputStream inputStream) {
         super(inputStream);
+    }
+
+    private void eraseFields() {
+        character = null;
+        picture = null;
     }
 
     private Character readCharacter() {
@@ -30,9 +36,15 @@ public class ClientReader extends BasicAbstractReader {
         character.getStrength().set(readInt());
         readInt(); // number of bonus
         return character;
-     }
+    }
 
-    private void eraseFields() {
+    private byte [] readPicture() {
+        int size = readInt();
+        byte [] content = new byte [size];
+        for (int i = 0; i < content.length; ++i) {
+            content[i] = readByte();
+        }
+        return content;
     }
 
 	public void receive() {
@@ -46,11 +58,18 @@ public class ClientReader extends BasicAbstractReader {
         case Protocol.REPLY_CHARACTER:
          character = readCharacter();
          break;
+        case Protocol.REPLY_PICTURE:
+            picture = readPicture();
+            break;
         }
     }
 
     public Character getCharacter() {
         return character;
+    }
+
+    public byte[] getPicture() {
+        return picture;
     }
 
 }

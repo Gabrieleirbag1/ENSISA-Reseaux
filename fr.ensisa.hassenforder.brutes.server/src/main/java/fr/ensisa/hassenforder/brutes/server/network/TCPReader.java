@@ -9,6 +9,7 @@ import fr.ensisa.hassenforder.network.BasicAbstractReader;
 public class TCPReader extends BasicAbstractReader {
 	
 	private String name;
+	private long id;
 
 	public TCPReader(InputStream inputStream) {
 		super (inputStream);
@@ -22,8 +23,12 @@ public class TCPReader extends BasicAbstractReader {
 		return readString();
 	}
 
-	private String readGet() {
+	private String readGetCharacter() {
 		return readString();
+	}
+
+	private Long readGetpicture() {
+		return readLong();
 	}
 
 	public void receive() {
@@ -32,12 +37,17 @@ public class TCPReader extends BasicAbstractReader {
 		switch (type) {
 		case 0 : break;
 		case Protocol.REQUEST_CREATE: name = readCreate(); break;
-		case Protocol.REQUEST_GET_CHARACTER: name = readGet(); break;
+		case Protocol.REQUEST_GET_CHARACTER: name = readGetCharacter(); break;
+		case Protocol.REQUEST_GET_PICTURE: id = readGetpicture(); break;
 		}
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	public long getId() {
+		return id;
 	}
 
 }

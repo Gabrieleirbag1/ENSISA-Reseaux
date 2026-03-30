@@ -85,9 +85,11 @@ public class ClientSession implements ISession {
             r.receive();
             if (r.getType() == Protocol.REPLY_CHARACTER) {
                 return r.getCharacter();
-            } else {
-              return null;
+            } 
+            if (r.getType() == Protocol.REPLY_KO) {
+                return null;
             }
+            return null;
         } catch (IOException e) {
     		return null;
         }
@@ -97,9 +99,17 @@ public class ClientSession implements ISession {
 	public byte[] getPicture(long id) {
         try {
         	ClientWriter w = new ClientWriter(tcp.getOutputStream());
-//
-            ClientReader r = new ClientReader(tcp.getInputStream());
-//
+          w.createPicture(id);
+          w.send();
+          ClientReader r = new ClientReader(tcp.getInputStream());
+          r.receive();
+          System.out.println("ClientSession.getPicture: type = " + r.getType());
+          if (r.getType() == Protocol.REPLY_PICTURE) {
+    	    	return r.getPicture();
+          } 
+          if (r.getType() == Protocol.REPLY_KO) {
+              return null;
+          }
     		return null;
         } catch (IOException e) {
     		return null;

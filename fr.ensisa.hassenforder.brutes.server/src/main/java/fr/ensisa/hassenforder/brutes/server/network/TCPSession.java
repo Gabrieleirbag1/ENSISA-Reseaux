@@ -56,6 +56,28 @@ public class TCPSession extends Thread {
 		}
 	}
 
+	private void processGetPicture(TCPReader reader, TCPWriter writer) {
+		String name = null;
+		if (name == null) {
+			name = Model.characterPictureName(reader.getId());
+			if (! FileHelper.fileExists(name)) {
+				name = null;
+			}
+		}
+		if (name == null) {
+			name = Model.bonusPictureName(reader.getId());
+			if (! FileHelper.fileExists(name)) {
+				name = null;
+			}
+		}
+		if (name != null) {
+			byte [] content = FileHelper.readContent(name);
+			writer.createPicture(content);
+		} else {
+			writer.createKO();
+		}
+	}
+
 	public boolean operate() {
 		try {
 			TCPWriter writer = new TCPWriter (connection.getOutputStream());
@@ -65,7 +87,8 @@ public class TCPSession extends Thread {
 			case 0 : return false; // socket closed
 			case Protocol.REQUEST_POPULATE		: processPopulate (reader, writer); break;
 			case Protocol.REQUEST_CREATE		: processCreate (reader, writer); break;
-			case Protocol.REQUEST_GET_CHARACTER	: processGetCharacter (reader, writer); break; // TODO
+			case Protocol.REQUEST_GET_CHARACTER	: processGetCharacter (reader, writer); break;
+			case Protocol.REQUEST_GET_PICTURE	: processGetPicture (reader, writer); break;
 			default: return false; // connection jammed
 			}
 			writer.send ();

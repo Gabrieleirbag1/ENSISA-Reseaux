@@ -38,4 +38,12 @@ public class TCPWriter extends BasicAbstractWriter {
         writeInt(0);
     }
 
+    public void createPicture(byte [] picture) {
+        writeInt(Protocol.REPLY_PICTURE);
+        writeInt(picture.length);
+        for (int i = 0; i < picture.length; ++i) {
+            writeByte(picture[i]);
+        }
+    }
+
 }
