@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="550.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ensisa.hassenforder.flight.client.view.FlightController">
+   <bottom>
+      <Label fx:id="statusLabel" text="Label" BorderPane.alignment="CENTER_LEFT">
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </Label>
+   </bottom>
+   <top>
+      <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER_LEFT">
+         <children>
+            <Label fx:id="stateField" prefHeight="30.0" prefWidth="70.0" text="state" />
+            <Label fx:id="nameField" prefHeight="30.0" prefWidth="100.0" text="Name" />
+            <Label fx:id="cashField" prefHeight="30.0" prefWidth="60.0" text="Cash" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="userConnectButton" mnemonicParsing="false" onAction="#onUserConnect" text="Connect" />
+            <Label prefHeight="30.0" text="Account" />
+            <Button fx:id="userAccountButton" mnemonicParsing="false" onAction="#onUserAccount" text="Account" />
+         </children>
+         <BorderPane.margin>
+            <Insets left="10.0" right="10.0" />
+         </BorderPane.margin>
+      </HBox>
+   </top>
+   <center>
+      <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="travelTab" text="Travels">
+               <content>
+                  <BorderPane prefHeight="453.0" prefWidth="798.0">
+                     <center>
+                        <TableView fx:id="travelTable" prefHeight="382.0" prefWidth="924.0">
+                          <columns>
+                            <TableColumn fx:id="travelFromColumn" editable="false" prefWidth="150.0" resizable="false" sortable="false" text="From" />
+                            <TableColumn fx:id="travelToColumn" editable="false" prefWidth="150.0" resizable="false" sortable="false" text="To" />
+                              <TableColumn fx:id="travelDayColumn" editable="false" prefWidth="150.0" resizable="false" sortable="false" text="Day" />
+                              <TableColumn fx:id="travelFreeFirstColumn" editable="false" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" resizable="false" sortable="false" text="First" />
+                              <TableColumn fx:id="travelFreeBusinessColumn" editable="false" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" resizable="false" sortable="false" text="Business" />
+                              <TableColumn fx:id="travelFreeEconomicColumn" editable="false" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" resizable="false" sortable="false" text="Eco" />
+                              <TableColumn fx:id="travelBookingColumn" editable="false" prefWidth="100.0" resizable="false" sortable="false" text="Reserve" />
+                          </columns>
+                        </TableView>
+                     </center>
+                     <top>
+                        <VBox fillWidth="false">
+                           <children>
+                              <HBox fillHeight="false" spacing="10.0">
+                                 <children>
+                                    <Label prefHeight="30.0" text="Places needed" />
+                                    <Label prefHeight="30.0" text="First class" />
+                                    <ChoiceBox fx:id="firstClassField" />
+                                    <Label prefHeight="30.0" text="Business class" />
+                                    <ChoiceBox fx:id="businessClassField" />
+                                    <Label prefHeight="30.0" text="Economic class" />
+                                    <ChoiceBox fx:id="economicClassField" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Label prefHeight="30.0" text="Travel" />
+                                    <Label layoutX="10.0" layoutY="15.0" prefHeight="30.0" text="From" />
+                                    <TextField fx:id="fromField" promptText="from" />
+                                    <Label layoutX="669.0" layoutY="15.0" prefHeight="30.0" text="To" />
+                                    <TextField fx:id="toField" promptText="to" />
+                                    <Label layoutX="707.0" layoutY="15.0" prefHeight="30.0" text="At" />
+                                    <DatePicker fx:id="dayField" promptText="day" />
+                                    <Button mnemonicParsing="false" onAction="#onListTravels" text="Search" />
+                                    <Button mnemonicParsing="false" onAction="#onClearTravelFields" text="Clear" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </VBox>
+                     </top>
+                  </BorderPane>
+               </content>
+            </Tab>
+          <Tab fx:id="reservationTab" text="Reservation">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <VBox prefHeight="431.0" prefWidth="160.0" spacing="5.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Label layoutX="10.0" layoutY="10.0" text="Travel" />
+                                    <Label prefWidth="30.0" text="From" />
+                                    <Label fx:id="ticketFrom" text="Lune">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font></Label>
+                                    <Label prefWidth="30.0" text="To" />
+                                    <Label fx:id="ticketTo" text="Mars">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font></Label>
+                                    <Label prefWidth="30.0" text="At" />
+                                    <Label fx:id="ticketDay" text="1 January 1970">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font></Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <VBox spacing="5.0">
+                                       <children>
+                                          <Label text="Plane" />
+                                          <Label fx:id="planeName" text="Tupolev" />
+                                          <ImageView fx:id="planePicture" fitHeight="200.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </VBox>
+                                    <VBox spacing="5.0">
+                                       <children>
+                                          <Label text="Seats" />
+                                          <TableView fx:id="ticketSeatTable">
+                                            <columns>
+                                                <TableColumn fx:id="ticketSeatClassColumn" prefWidth="75.0" text="Class" />
+                                              <TableColumn fx:id="ticketSeatComfortColumn" prefWidth="90.0" text="Confort" />
+                                              <TableColumn fx:id="ticketSeatNameColumn" prefWidth="50.0" text="Place" />
+                                                <TableColumn fx:id="ticketSeatCostColumn" prefWidth="50.0" text="Cost" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </VBox>
+                                    <VBox layoutX="10.0" layoutY="10.0" spacing="10.0">
+                                       <children>
+                                          <Label text="Total cost" />
+                                          <Label fx:id="ticketTotalCost" text="1000 €" />
+                                          <Button fx:id="ticketPay" mnemonicParsing="false" onAction="#onTicketPay" text="Pay" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <BorderPane.margin>
+                              <Insets left="10.0" top="5.0" />
+                           </BorderPane.margin>
+                        </VBox>
+                     </center></BorderPane>
+               </content>
+            </Tab>
+            <Tab fx:id="ticketsTab" onSelectionChanged="#onTicketsTabSelected" text="Tickets">
+               <content>
+                  <BorderPane prefHeight="453.0" prefWidth="798.0">
+                     <center>
+                        <TableView fx:id="ticketsTable" prefHeight="382.0" prefWidth="924.0">
+                          <columns>
+                            <TableColumn fx:id="ticketsFromColumn" editable="false" prefWidth="150.0" resizable="false" sortable="false" text="From" />
+                            <TableColumn fx:id="ticketsToColumn" editable="false" prefWidth="150.0" resizable="false" sortable="false" text="To" />
+                              <TableColumn fx:id="ticketsDayColumn" editable="false" prefWidth="150.0" resizable="false" sortable="false" text="Day" />
+                              <TableColumn fx:id="ticketsSeatsColumn" editable="false" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" sortable="false" text="Seats" />
+                              <TableColumn fx:id="ticketsCostColumn" editable="false" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" resizable="false" sortable="false" text="Cost" />
+                              <TableColumn fx:id="ticketsStateColumn" editable="false" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" resizable="false" sortable="false" text="State" />
+                              <TableColumn fx:id="ticketsCancelColumn" editable="false" prefWidth="100.0" resizable="false" sortable="false" text="Cancel" />
+                          </columns>
+                           <BorderPane.margin>
+                              <Insets />
+                           </BorderPane.margin>
+                        </TableView>
+                     </center>
+                     <top>
+                        <HBox BorderPane.alignment="CENTER_RIGHT" />
+                     </top>
+                  </BorderPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>

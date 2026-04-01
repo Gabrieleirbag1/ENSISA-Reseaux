@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>fr.ensisa.hassenforder.flight</groupId>
+	<artifactId>flight.parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Flight lab session</name>
+	<description>Flight project for lab sessions</description>
+	<url>https://gitlab.cluster.ensisa.uha.fr/michel.hassenforder/fr.ensisa.hassenforder.flight</url>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://opensource.org/licenses/MIT"</url>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>Ensisa</name>
+		<url>http://www.ensisa.fr</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>hassenforder</id>
+			<name>Michel Hassenforder</name>
+			<email>Michel.Hassenforder@uha.fr</email>
+			<roles>
+				<role>founder</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:https://gitlab.cluster.ensisa.uha.fr/michel.hassenforder/fr.ensisa.hassenforder.flight.git</connection>
+		<developerConnection>scm:git:https://gitlab.cluster.ensisa.uha.fr/michel.hassenforder/fr.ensisa.hassenforder.flight.git</developerConnection>
+		<url>https://gitlab.cluster.ensisa.uha.fr/michel.hassenforder/fr.ensisa.hassenforder.flight</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jre.version>17</jre.version>
+		<plugin.exec>3.5.0</plugin.exec>
+		<plugin.helper>3.6.0</plugin.helper>
+		<plugin.compiler>3.14.0</plugin.compiler>
+		<plugin.jar>3.4.2</plugin.jar>
+		<plugin.assembly>3.7.1</plugin.assembly>
+		<plugin.shade>3.6.0</plugin.shade>
+		<plugin.junit>5.11.0-M2</plugin.junit>
+		<plugin.surefire>3.5.2</plugin.surefire>
+		<plugin.plugin.plugin>3.9.0</plugin.plugin.plugin>
+		<plugin.plugin.api>3.9.6</plugin.plugin.api>
+		<plugin.plugin.core>3.9.6</plugin.plugin.core>
+		<plugin.plugin.annotations>3.15.1</plugin.plugin.annotations>
+		<build.release>3.1.1</build.release>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>flight-repo</id>
+			<url>https://gitlab.cluster.ensisa.uha.fr/api/v4/projects/236/packages/maven</url>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>flight-repo</id>
+			<url>https://gitlab.cluster.ensisa.uha.fr/api/v4/projects/236/packages/maven</url>
+		</repository>
+		<snapshotRepository>
+			<id>flight-repo</id>
+			<url>https://gitlab.cluster.ensisa.uha.fr/api/v4/projects/236/packages/maven</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<modules>
+		<module>fr.ensisa.hassenforder.flight.common</module>
+		<module>fr.ensisa.hassenforder.flight.client</module>
+		<module>fr.ensisa.hassenforder.flight.database</module>
+		<module>fr.ensisa.hassenforder.flight.server</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-engine</artifactId>
+				<version>${plugin.junit}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-plugin-api</artifactId>
+				<version>${plugin.plugin.api}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-core</artifactId>
+				<version>${plugin.plugin.core}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.plugin-tools</groupId>
+				<artifactId>maven-plugin-annotations</artifactId>
+				<version>${plugin.plugin.annotations}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<version>${plugin.exec}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>${plugin.helper}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${plugin.compiler}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${plugin.jar}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>${plugin.assembly}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-shade-plugin</artifactId>
+					<version>${plugin.shade}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${plugin.surefire}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-plugin-plugin</artifactId>
+					<version>${plugin.plugin.plugin}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>${build.release}</version>
+					<configuration>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>
