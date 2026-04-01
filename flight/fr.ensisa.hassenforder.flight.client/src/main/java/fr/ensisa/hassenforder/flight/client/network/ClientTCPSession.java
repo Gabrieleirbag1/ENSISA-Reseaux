@@ -53,9 +53,12 @@ public class ClientTCPSession implements ISession {
 	public Connected connect(String mail, String passwd) {
         try {
         	ClientTCPWriter w = new ClientTCPWriter(tcp.getOutputStream());
-//
-          ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
-//
+			w.createConnect(mail, passwd);
+			w.send();
+          	ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
+			r.receive();
+			if (r.getType() == Protocol.REPLY_USER) return r.getConnected();
+			if (r.getType() == Protocol.REPLY_NOWAY) return null;
       		return null;
         } catch (IOException e) {
       		return null;
@@ -66,9 +69,13 @@ public class ClientTCPSession implements ISession {
 	public Boolean disconnect(Authenticator authenticator) {
         try {
         	ClientTCPWriter w = new ClientTCPWriter(tcp.getOutputStream());
-//
-          ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
-//
+			w.createDisconnect(authenticator);
+			w.send();
+          	ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
+			r.receive();
+			if (r.getType() == Protocol.REPLY_OK) return Boolean.TRUE;
+			if (r.getType() == Protocol.REPLY_KO) return Boolean.FALSE;
+			if (r.getType() == Protocol.REPLY_NOWAY) return null;
       		return null;
         } catch (IOException e) {
       		return null;
@@ -79,9 +86,12 @@ public class ClientTCPSession implements ISession {
 	public Account getAccount(Authenticator authenticator) {
         try {
         	ClientTCPWriter w = new ClientTCPWriter(tcp.getOutputStream());
-//
-          ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
-//
+			w.createGetAccount(authenticator);
+			w.send();
+          	ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
+			r.receive();
+			if (r.getType() == Protocol.REPLY_ACCOUNT) return r.getAccount();
+			if (r.getType() == Protocol.REPLY_NOWAY) return null;
       		return null;
         } catch (IOException e) {
     		  return null;
@@ -92,9 +102,13 @@ public class ClientTCPSession implements ISession {
 	public Boolean createAccount(Account account) {
         try {
         	ClientTCPWriter w = new ClientTCPWriter(tcp.getOutputStream());
-//
-          ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
-//
+			w.createAccount(account);
+			w.send();
+          	ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
+			r.receive();
+			if (r.getType() == Protocol.REPLY_OK) return Boolean.TRUE;
+			if (r.getType() == Protocol.REPLY_KO) return Boolean.FALSE;
+			if (r.getType() == Protocol.REPLY_NOWAY) return null;
       		return null;
         } catch (IOException e) {
       		return null;
@@ -105,9 +119,13 @@ public class ClientTCPSession implements ISession {
 	public Boolean updateAccount(Authenticator authenticator, Account account) {
         try {
         	ClientTCPWriter w = new ClientTCPWriter(tcp.getOutputStream());
-//
-          ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
-//
+			w.createUpdateAccount(authenticator, account);
+			w.send();
+          	ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
+			r.receive();
+			if (r.getType() == Protocol.REPLY_OK) return Boolean.TRUE;
+			if (r.getType() == Protocol.REPLY_KO) return Boolean.FALSE;
+			if (r.getType() == Protocol.REPLY_NOWAY) return null;
       		return null;
           } catch (IOException e) {
     		return null;
@@ -118,9 +136,12 @@ public class ClientTCPSession implements ISession {
 	public Collection<Travel> getAllTravels() {
         try {
         	ClientTCPWriter w = new ClientTCPWriter(tcp.getOutputStream());
-//
-          ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
-//
+			w.createGetAllTravels();
+			w.send();
+          	ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
+			r.receive();
+			if (r.getType() == Protocol.REPLY_TRAVELS) return r.getTravels();
+			if (r.getType() == Protocol.REPLY_NOWAY) return null;
       		return null;
         } catch (IOException e) {
       		return null;
@@ -131,9 +152,12 @@ public class ClientTCPSession implements ISession {
 	public Collection<Travel> getAllTravels(String from, String to, LocalDate localDate) {
         try {
         	ClientTCPWriter w = new ClientTCPWriter(tcp.getOutputStream());
-//
-          ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
-//
+			w.createGetFilteredTravels(from, to, localDate);
+			w.send();
+          	ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
+			r.receive();
+			if (r.getType() == Protocol.REPLY_TRAVELS) return r.getTravels();
+			if (r.getType() == Protocol.REPLY_NOWAY) return null;
       		return null;
         } catch (IOException e) {
       		return null;
@@ -144,9 +168,12 @@ public class ClientTCPSession implements ISession {
 	public Long bookTravel(Authenticator authenticator, long travelId, List<SeatCount> seatCounts) {
         try {
         	ClientTCPWriter w = new ClientTCPWriter(tcp.getOutputStream());
-//
-          ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
-//
+			w.createBookTravel(authenticator, travelId, seatCounts);
+			w.send();
+          	ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
+			r.receive();
+			if (r.getType() == Protocol.REPLY_BOOKED_TRAVEL) return r.getTicketId();
+			if (r.getType() == Protocol.REPLY_NOWAY) return null;
       		return null;
         } catch (IOException e) {
       		return null;
@@ -157,9 +184,12 @@ public class ClientTCPSession implements ISession {
 	public Ticket getTicket(Authenticator authenticator, long ticketId) {
         try {
         	ClientTCPWriter w = new ClientTCPWriter(tcp.getOutputStream());
-//
-          ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
-//
+			w.createGetTicket(authenticator, ticketId);
+			w.send();
+          	ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
+			r.receive();
+			if (r.getType() == Protocol.REPLY_TICKET) return r.getTicket();
+			if (r.getType() == Protocol.REPLY_NOWAY) return null;
       		return null;
         } catch (IOException e) {
     	  	return null;
@@ -170,9 +200,12 @@ public class ClientTCPSession implements ISession {
 	public PaymentResult payTicket(Authenticator authenticator, long ticketId) {
         try {
         	ClientTCPWriter w = new ClientTCPWriter(tcp.getOutputStream());
-//
-          ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
-//
+			w.createPayTicket(authenticator, ticketId);
+			w.send();
+          	ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
+			r.receive();
+			if (r.getType() == Protocol.REPLY_PAYMENT) return r.getPaymentResult();
+			if (r.getType() == Protocol.REPLY_NOWAY) return null;
       		return null;
         } catch (IOException e) {
     		  return null;
@@ -183,9 +216,12 @@ public class ClientTCPSession implements ISession {
 	public Collection<Ticket> getAllTickets(Authenticator authenticator) {
         try {
         	ClientTCPWriter w = new ClientTCPWriter(tcp.getOutputStream());
-//
-          ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
-//
+			w.createGetAllTickets(authenticator);
+			w.send();
+          	ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
+			r.receive();
+			if (r.getType() == Protocol.REPLY_TICKETS) return r.getTickets();
+			if (r.getType() == Protocol.REPLY_NOWAY) return null;
       		return null;
         } catch (IOException e) {
       		return null;
@@ -196,9 +232,12 @@ public class ClientTCPSession implements ISession {
 	public PaymentResult cancelTicket(Authenticator authenticator, long ticketId) {
         try {
         	ClientTCPWriter w = new ClientTCPWriter(tcp.getOutputStream());
-//
-          ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
-//
+			w.createCancelTicket(authenticator, ticketId);
+			w.send();
+          	ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
+			r.receive();
+			if (r.getType() == Protocol.REPLY_PAYMENT) return r.getPaymentResult();
+			if (r.getType() == Protocol.REPLY_NOWAY) return null;
       		return null;
         } catch (IOException e) {
       		return null;
@@ -209,9 +248,12 @@ public class ClientTCPSession implements ISession {
 	public byte[] getImage(String name) {
         try {
         	ClientTCPWriter w = new ClientTCPWriter(tcp.getOutputStream());
-//
-          ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
-//
+			w.createGetImage(name);
+			w.send();
+          	ClientTCPReader r = new ClientTCPReader(tcp.getInputStream());
+			r.receive();
+			if (r.getType() == Protocol.REPLY_IMAGE) return r.getImage();
+			if (r.getType() == Protocol.REPLY_NOWAY) return null;
       		return null;
         } catch (IOException e) {
       		return null;
